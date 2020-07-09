@@ -171,7 +171,7 @@
 <h4 id="步骤二：部署项目："><a href="#步骤二：部署项目：" class="headerlink" title="步骤二：部署项目："></a>步骤二：部署项目：</h4><p>如果已经正确进行上述配置，可将项目编译打包部署。</p>
 <p>调度中心访问地址：<a href="http://localhost:8080/xxl-job-admin" target="_blank" rel="noopener">http://localhost:8080/xxl-job-admin</a> (该地址执行器将会使用到，作为回调地址)</p>
 <p>默认登录账号 “admin/123456”, 登录后运行界面如下图所示。</p>
-<p><img src="/2020/07/06/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B9%B3%E5%8F%B0XXL-JOB/%5Cimages%5Cimg_6yC0.png" alt="输入图片说明"></p>
+<p><img src="/2020/07/06/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B9%B3%E5%8F%B0XXL-JOB/img_6yC0.png" alt="输入图片说明"></p>
 <p>至此“调度中心”项目已经部署成功。</p>
 <h4 id="步骤三：调度中心集群（可选）："><a href="#步骤三：调度中心集群（可选）：" class="headerlink" title="步骤三：调度中心集群（可选）："></a>步骤三：调度中心集群（可选）：</h4><p>调度中心支持集群部署，提升调度系统容灾和可用性。</p>
 <p>调度中心集群部署时，几点要求和建议：</p>
@@ -233,11 +233,41 @@
 <p><img src="/2020/07/06/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B9%B3%E5%8F%B0XXL-JOB/D:%5Ctools%5Ctypora%5Cimages%5Cimg_inc8.png" alt></p>
 <p>在日志控制台，可以Rolling方式实时查看任务在执行器一侧运行输出的日志信息，实时监控任务进度；</p>
 <p><img src="/2020/07/06/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B9%B3%E5%8F%B0XXL-JOB/D:%5Ctools%5Ctypora%5Cimages%5Cimg_eYrv.png" alt></p>
+<h2 id="三、任务详解"><a href="#三、任务详解" class="headerlink" title="三、任务详解"></a>三、任务详解</h2><h3 id="配置属性详细说明："><a href="#配置属性详细说明：" class="headerlink" title="配置属性详细说明："></a>配置属性详细说明：</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">- 执行器：任务的绑定的执行器，任务触发调度时将会自动发现注册成功的执行器, 实现任务自动发现功能; 另一方面也可以方便的进行任务分组。每个任务必须绑定一个执行器, 可在 "执行器管理" 进行设置;</span><br><span class="line">- 任务描述：任务的描述信息，便于任务管理；</span><br><span class="line">- 路由策略：当执行器集群部署时，提供丰富的路由策略，包括；</span><br><span class="line">    FIRST（第一个）：固定选择第一个机器；</span><br><span class="line">    LAST（最后一个）：固定选择最后一个机器；</span><br><span class="line">    ROUND（轮询）：；</span><br><span class="line">    RANDOM（随机）：随机选择在线的机器；</span><br><span class="line">    CONSISTENT_HASH（一致性HASH）：每个任务按照Hash算法固定选择某一台机器，且所有任务均匀散列在不同机器上。</span><br><span class="line">    LEAST_FREQUENTLY_USED（最不经常使用）：使用频率最低的机器优先被选举；</span><br><span class="line">    LEAST_RECENTLY_USED（最近最久未使用）：最久未使用的机器优先被选举；</span><br><span class="line">    FAILOVER（故障转移）：按照顺序依次进行心跳检测，第一个心跳检测成功的机器选定为目标执行器并发起调度；</span><br><span class="line">    BUSYOVER（忙碌转移）：按照顺序依次进行空闲检测，第一个空闲检测成功的机器选定为目标执行器并发起调度；</span><br><span class="line">    SHARDING_BROADCAST(分片广播)：广播触发对应集群中所有机器执行一次任务，同时系统自动传递分片参数；可根据分片参数开发分片任务；</span><br><span class="line">- Cron：触发任务执行的Cron表达式；</span><br><span class="line">- 运行模式：</span><br><span class="line">    BEAN模式：任务以JobHandler方式维护在执行器端；需要结合 "JobHandler" 属性匹配执行器中任务；</span><br><span class="line">    GLUE模式(Java)：任务以源码方式维护在调度中心；该模式的任务实际上是一段继承自IJobHandler的Java类代码并 "groovy" 源码方式维护，它在执行器项目中运行，可使用@Resource/@Autowire注入执行器里中的其他服务；</span><br><span class="line">    GLUE模式(Shell)：任务以源码方式维护在调度中心；该模式的任务实际上是一段 "shell" 脚本；</span><br><span class="line">    GLUE模式(Python)：任务以源码方式维护在调度中心；该模式的任务实际上是一段 "python" 脚本；</span><br><span class="line">    GLUE模式(PHP)：任务以源码方式维护在调度中心；该模式的任务实际上是一段 "php" 脚本；</span><br><span class="line">    GLUE模式(NodeJS)：任务以源码方式维护在调度中心；该模式的任务实际上是一段 "nodejs" 脚本；</span><br><span class="line">    GLUE模式(PowerShell)：任务以源码方式维护在调度中心；该模式的任务实际上是一段 "PowerShell" 脚本；</span><br><span class="line">- JobHandler：运行模式为 "BEAN模式" 时生效，对应执行器中新开发的JobHandler类“@JobHandler”注解自定义的value值；</span><br><span class="line">- 阻塞处理策略：调度过于密集执行器来不及处理时的处理策略；</span><br><span class="line">    单机串行（默认）：调度请求进入单机执行器后，调度请求进入FIFO队列并以串行方式运行；</span><br><span class="line">    丢弃后续调度：调度请求进入单机执行器后，发现执行器存在运行的调度任务，本次请求将会被丢弃并标记为失败；</span><br><span class="line">    覆盖之前调度：调度请求进入单机执行器后，发现执行器存在运行的调度任务，将会终止运行中的调度任务并清空队列，然后运行本地调度任务；</span><br><span class="line">- 子任务：每个任务都拥有一个唯一的任务ID(任务ID可以从任务列表获取)，当本任务执行结束并且执行成功时，将会触发子任务ID所对应的任务的一次主动调度。</span><br><span class="line">- 任务超时时间：支持自定义任务超时时间，任务运行超时将会主动中断任务；</span><br><span class="line">- 失败重试次数；支持自定义任务失败重试次数，当任务失败时将会按照预设的失败重试次数主动进行重试；</span><br><span class="line">- 报警邮件：任务调度失败时邮件通知的邮箱地址，支持配置多邮箱地址，配置多个邮箱地址时用逗号分隔；</span><br><span class="line">- 负责人：任务的负责人；</span><br><span class="line">- 执行参数：任务执行所需的参数；</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-BEAN模式（类形式）"><a href="#3-1-BEAN模式（类形式）" class="headerlink" title="3.1 BEAN模式（类形式）"></a>3.1 BEAN模式（类形式）</h3><p>Bean模式任务，支持基于类的开发方式，每个任务对应一个Java类。</p>
+<ul>
+<li><p>优点：不限制项目环境，兼容性好。即使是无框架项目，如main方法直接启动的项目也可以提供支持，可以参考示例项目 “xxl-job-executor-sample-frameless”；</p>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>每个任务需要占用一个Java类，造成类的浪费；</li>
+<li>不支持自动扫描任务并注入到执行器容器，需要手动注入。</li>
+</ul>
+<h4 id="步骤一：执行器项目中，开发Job类："><a href="#步骤一：执行器项目中，开发Job类：" class="headerlink" title="步骤一：执行器项目中，开发Job类："></a>步骤一：执行器项目中，开发Job类：</h4></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、开发一个继承自<span class="string">"com.xxl.job.core.handler.IJobHandler"</span>的JobHandler类，实现其中任务方法。</span><br><span class="line"><span class="number">2</span>、手动通过如下方式注入到执行器容器。</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+<p>XxlJobExecutor.registJobHandler(“demoJobHandler”, new DemoJobHandler());<br>​```</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 步骤二：调度中心，新建调度任务</span><br><span class="line"></span><br><span class="line">后续步骤和 “3.2 BEAN模式（方法形式）”一致，可以前往参考。</span><br><span class="line"></span><br><span class="line">### 3.2 BEAN模式（方法形式）</span><br><span class="line"></span><br><span class="line">Bean模式任务，支持基于方法的开发方式，每个任务对应一个方法。</span><br><span class="line"></span><br><span class="line">- 优点：</span><br><span class="line">  - 每个任务只需要开发一个方法，并添加”[@XxlJob](https:&#x2F;&#x2F;github.com&#x2F;XxlJob)”注解即可，更加方便、快速。</span><br><span class="line">  - 支持自动扫描任务并注入到执行器容器。</span><br><span class="line">- 缺点：要求Spring容器环境；</span><br><span class="line"></span><br><span class="line">&gt; 基于方法开发的任务，底层会生成JobHandler代理，和基于类的方式一样，任务也会以JobHandler的形式存在于执行器任务容器中。</span><br><span class="line"></span><br><span class="line">#### 步骤一：执行器项目中，开发Job方法：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;xml</span><br><span class="line">1、在Spring Bean实例中，开发Job方法，方式格式要求为 &quot;public ReturnT&lt;String&gt; execute(String param)&quot;</span><br><span class="line">2、为Job方法添加注解 &quot;@XxlJob(value&#x3D;&quot;自定义jobhandler名称&quot;, init &#x3D; &quot;JobHandler初始化方法&quot;, destroy &#x3D; &quot;JobHandler销毁方法&quot;)&quot;，注解value值对应的是调度中心新建任务的JobHandler属性的值。</span><br><span class="line">3、执行日志：需要通过 &quot;XxlJobLogger.log&quot; 打印执行日志；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可参考Sample示例执行器中的 "com.xxl.job.executor.service.jobhandler.SampleXxlJob" ，如下：</span></span><br><span class="line"><span class="meta">@XxlJob</span>(<span class="string">"demoJobHandler"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ReturnT&lt;String&gt; <span class="title">execute</span><span class="params">(String param)</span> </span>&#123;</span><br><span class="line">    XxlJobLogger.log(<span class="string">"hello world."</span>);</span><br><span class="line">    <span class="keyword">return</span> ReturnT.SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="步骤二：调度中心，新建调度任务"><a href="#步骤二：调度中心，新建调度任务" class="headerlink" title="步骤二：调度中心，新建调度任务"></a>步骤二：调度中心，新建调度任务</h4><p>参考上文“配置属性详细说明”对新建的任务进行参数配置，运行模式选中 “BEAN模式”，JobHandler属性填写任务注解“<a href="https://github.com/XxlJob" target="_blank" rel="noopener">@XxlJob</a>”中定义的值；</p>
+<p>![](D:\tools\typora\images\img_ZAsz (1).png)</p>
+<h4 id="原生内置Bean模式任务"><a href="#原生内置Bean模式任务" class="headerlink" title="原生内置Bean模式任务"></a>原生内置Bean模式任务</h4><p>为方便用户参考与快速实用，示例执行器内原生提供多个Bean模式任务Handler，可以直接配置实用，如下：</p>
+<ul>
+<li>demoJobHandler：简单示例任务，任务内部模拟耗时任务逻辑，用户可在线体验Rolling Log等功能；</li>
+<li>shardingJobHandler：分片示例任务，任务内部模拟处理分片参数，可参考熟悉分片任务；</li>
+<li>httpJobHandler：通用HTTP任务Handler；业务方只需要提供HTTP链接等信息即可，不限制语言、平台。示例任务入参如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url: http:<span class="comment">//www.xxx.com</span></span><br><span class="line">method: get 或 post</span><br><span class="line">data: post-data</span><br></pre></td></tr></table></figure>
+
+<p>commandJobHandler：通用命令行任务Handler；业务方只需要提供命令行即可；如 “pwd”命令；</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/06/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B9%B3%E5%8F%B0XXL-JOB/" data-id="ckc9tl55e0003vsyj990b7qh7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/06/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%B9%B3%E5%8F%B0XXL-JOB/" data-id="ckcehucb90003soyjd7muafdc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -281,7 +311,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/02/Vue-js/" data-id="ckc9tl5570000vsyjfkui5z5v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/02/Vue-js/" data-id="ckcehucb40001soyj5ebq3tmf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -361,7 +391,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/01/ssm%E6%95%B4%E5%90%88/" data-id="ckc9tl55d0002vsyj8b4sfwe4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/01/ssm%E6%95%B4%E5%90%88/" data-id="ckcehucax0000soyj0e4u1qw2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/01/hello-world/" data-id="ckc9tl55b0001vsyj31k3auo1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/01/hello-world/" data-id="ckcehucb70002soyj0npm5f3u" class="article-share-link">Share</a>
       
       
     </footer>
