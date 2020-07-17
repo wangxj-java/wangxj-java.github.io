@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #3757dd;
+  background: #ff6093;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2661,16 +2661,14 @@ embed {
   display: inline-block;
 }
 body {
-  background: url("/images/sleep.jpg");
-  background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
+  background-size: 100% 100%;
 }
-.main-inner {
-  background: #fff;
-  opacity: 0.8;
+.body {
+  opacity: 0.5;
 }
 .header-inner {
-  opacity: 0.8;
+  opacity: 0.5;
 }
